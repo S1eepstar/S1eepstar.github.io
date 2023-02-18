@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="​																							——by s1eepstar 计算机网络概述计算机网络的基本功能是 资源共享 和 数据通信 计算机网络是计算机技术和 通信技术  相结合的产物 计算机网络系统由负责 信息传递 的通信子网和负责信息处理的 资源 子网组成   Internet分成两个部分：边缘部分和核心部分。 计算机内传输的信号是 数字信号 ，而公用电话系统的传输系统只能传输 模拟信号">
+<meta property="og:type" content="article">
+<meta property="og:title" content="s1eepstar&#39;s blog">
+<meta property="og:url" content="http://example.com/2023/02/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/index.html">
+<meta property="og:site_name" content="s1eepstar&#39;s blog">
+<meta property="og:description" content="​																							——by s1eepstar 计算机网络概述计算机网络的基本功能是 资源共享 和 数据通信 计算机网络是计算机技术和 通信技术  相结合的产物 计算机网络系统由负责 信息传递 的通信子网和负责信息处理的 资源 子网组成   Internet分成两个部分：边缘部分和核心部分。 计算机内传输的信号是 数字信号 ，而公用电话系统的传输系统只能传输 模拟信号">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:\Users\Star\AppData\Roaming\Typora\typora-user-images\image-20230218180731288.png">
+<meta property="og:image" content="c:\Users\Star\AppData\Roaming\Typora\typora-user-images\image-20230218181153169.png">
+<meta property="og:image" content="c:\Users\Star\AppData\Roaming\Typora\typora-user-images\image-20230218212239099.png">
+<meta property="og:image" content="https://img1.baidu.com/it/u=1333219036,2646778075&fm=253&fmt=auto&app=138&f=JPEG?w=499&h=231">
+<meta property="og:image" content="c:\Users\Star\AppData\Roaming\Typora\typora-user-images\image-20230218212143879.png">
+<meta property="og:image" content="c:\Users\Star\AppData\Roaming\Typora\typora-user-images\image-20230218212110928.png">
+<meta property="og:image" content="c:\Users\Star\AppData\Roaming\Typora\typora-user-images\image-20230218211654131.png">
+<meta property="og:image" content="https://img0.baidu.com/it/u=868667196,1804963305&fm=253&fmt=auto&app=138&f=JPEG?w=499&h=288">
+<meta property="og:image" content="https://img1.baidu.com/it/u=3765314886,500534333&fm=253&fmt=auto&app=138&f=PNG?w=451&h=261">
+<meta property="article:published_time" content="2023-02-18T15:56:57.252Z">
+<meta property="article:modified_time" content="2023-02-18T15:56:15.941Z">
+<meta property="article:author" content="s1eepstar">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\Star\AppData\Roaming\Typora\typora-user-images\image-20230218180731288.png">
+
+<link rel="canonical" href="http://example.com/2023/02/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title> | s1eepstar's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">s1eepstar's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">是学习笔记，亦是成长历程</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="s1eepstar">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="s1eepstar's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-02-18 23:56:57 / 修改时间：23:56:15" itemprop="dateCreated datePublished" datetime="2023-02-18T23:56:57+08:00">2023-02-18</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>​																							——by s1eepstar</p>
+<h2 id="计算机网络概述"><a href="#计算机网络概述" class="headerlink" title="计算机网络概述"></a>计算机网络概述</h2><p>计算机网络的基本功能是 资源共享 和 数据通信</p>
+<p>计算机网络是计算机技术和 通信技术  相结合的产物</p>
+<p>计算机网络系统由负责 信息传递 的通信子网和负责信息处理的 资源 子网组成</p>
+<img src="C:\Users\Star\AppData\Roaming\Typora\typora-user-images\image-20230218180731288.png" alt="image-20230218180731288" style="zoom: 33%;" />
+
+<p>Internet分成两个部分：边缘部分和核心部分。</p>
+<p>计算机内传输的信号是 数字信号 ，而公用电话系统的传输系统只能传输 模拟信号 </p>
+<p>常用的交换技术主要有电路交换和分组交换。</p>
+<img src="C:\Users\Star\AppData\Roaming\Typora\typora-user-images\image-20230218181153169.png" alt="image-20230218181153169" style="zoom: 33%;" />
+
+<p>近年来，各类网络之间的区别已经变得越来越模糊了，比如也可分为局域网、广域网和互联网（ internet）</p>
+<p><strong>广域网</strong>	WAN: Wide Area Network</p>
+<p>远程（跨地区、国家、洲际)网网络，传播距离长（大于100KM），覆盖范围广；</p>
+<p>一般通过租用专线接入公共数据通信网，作为公共资源由专门单位使用专线构建（如电信部门）供用户使用；</p>
+<p>以路由器（Router）为技术基础；采用交换(switching)技术、路由(routing)技术和复用(multiplexing)技术。    </p>
+<p>WAN通信一般称为“服务”（service）——收费（ISP）</p>
+<p><strong>局域网</strong>	LAN: Local Area Network</p>
+<p>近距（如一座建筑物中，常为某个单位所有并独立管理，如一座大楼或一集中建筑群) 一般使用专门敷设的线路</p>
+<p>免费共享本地主机资源(主机&#x2F;服务器为中心)</p>
+<p>采用广播(broadcast)技术共享传输媒介传送（广播式）</p>
+<p>可用通信介质较多</p>
+<p>传输距离有限，一般小于10KM，或局限在一栋建筑物之内的网络；</p>
+<p>传输速率高（10Mbps~1Gbps）;</p>
+<p>误码率低，可靠性好；传输延迟少；</p>
+<p>使用范围广，遍布各机关、企事业单位及学校（校园网）；</p>
+<p>**城域网	**MAN: Metropolitan  Area Networks</p>
+<p>传送距离介于LAN和WAN之间(通常是一个城市）</p>
+<p>与WAN相似处</p>
+<p>​	一般不为某个单位所有</p>
+<p>​	通信线路和通信设备有偿使用</p>
+<p>与大型LAN相似处</p>
+<p>​	提供地域性资源共享服务的高速网络</p>
+<p>​	出口通常连接其他网络（因特网等）</p>
+<p>莆田学院校园网：通过电信的光纤接入莆田电信城域网</p>
+<p>有关VLAN</p>
+<p> 一个VLAN是一个冲突域 各个VLAN之间不能通信  VLAN之间必须通过服务器交换信息</p>
+<p>一个VLAN可以看作是一个 广播域 </p>
+<p>动态划分VLAN的方法中不包括 交换机端口</p>
+<p>在局域网中划分VLAN,不同VLAN之间必须通过 接入端口 连接才能互相通信</p>
+<p>属于各个VLAN的数据帧必须同时打上不同的 VLAN标记</p>
+<p>在局域网中可动态或静态划分VLAN,静态划分VLAN是根据 端口号</p>
+<p>Internet 主干网采用 网型 结构</p>
+<p>Internet 中采用的交换技术是 分组交换 </p>
+<p>因特网服务提供商——ISP</p>
+<p>两个端系统之间的通信工作方式通常可以划分为C&#x2F;S和P2P。 、</p>
+<p>带宽的单位是Hz；赫兹。 </p>
+<p>计算机网络中最重要的一个性能指标是数据传输速率。</p>
+<p>对带宽要求不高的网络应用属于 弹性服务。</p>
+<p>因特网（Internet）的起源可追溯到它的前身 ARPANET </p>
+<p>误码率&#x3D;出错的比特数&#x2F;传输的总比特数</p>
+<table>
+<thead>
+<tr>
+<th>计算机网络层</th>
+<th>数据单元</th>
+<th>常用协议</th>
+<th>功能</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>物理层</td>
+<td>比特</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>数据链路层</td>
+<td>帧</td>
+<td>Ethernet、PPP</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>网络层</td>
+<td>数据包 数据报 分组</td>
+<td>IP、ICMP、OSPF</td>
+<td>路由选择、拥塞控制与网络互连</td>
+<td></td>
+</tr>
+<tr>
+<td>运输层</td>
+<td>报文  tcp的协议数据单元被称为分段</td>
+<td>TCP、UDP</td>
+<td>负责提供可靠的端到端数据传输</td>
+<td></td>
+</tr>
+<tr>
+<td>应用层Application</td>
+<td>不再另外命名，统称为报文</td>
+<td>FTP、SMTP、HTTP</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<img src="C:\Users\Star\AppData\Roaming\Typora\typora-user-images\image-20230218212239099.png" alt="image-20230218212239099" style="zoom:67%;" />
+
+<p>物理层和数据链路层对应TCP&#x2F;IP体系结构中 网络接口层</p>
+<p>信道上可传送信号的最高频率和最低频率之差称为  信道带宽</p>
+<p>目前网络应用系统采用的主要模型是 客户&#x2F;服务器计算模型</p>
+<p>计算机网络采用 分组交换 技术，而传统电话网络则采用 电路交换 技术</p>
+<p>传送速率单位“b&#x2F;s”代表 bits per second</p>
+<p>网络拓扑包括  星形、总线形、环形和网状形</p>
+<p>在OSI模型中，下层为上层 提供服务</p>
+<p>在RIP路由协议中，当距离为  16  时表示目的不可达</p>
+<p>归零码、曼切斯特编码、差分曼切斯特编码 编码在每一位的中间都有一个跳变</p>
+<p>采用CRC校验的生成多项式为G(X)&#x3D;x^16^+x^15^+x^2^+1，它产生的校验码是 16bit</p>
+<p>当分组从高层向低层传送时，头部被 加上</p>
+<p>当分组从低层向高层传送时，头部被 去掉</p>
+<p>关于英语</p>
+<p>NII 被形象地称为信息高速公路</p>
+<p>OSI&#x2F;RM——开放系统互连&#x2F;参考模型。</p>
+<p>TCP&#x2F;IP——传输控制协议&#x2F;网际协议</p>
+<p>Modem 猫——调制解调器</p>
+<p>CSMA&#x2F;CD——载波侦听多路访问&#x2F;冲突检测协议</p>
+<p>ISP——因特网服务提供商</p>
+<p>信息高速公路的基本特征是交互、广域和 高速 </p>
+<p>在同一个系统内，相邻层之间交换信息的连接点称之为 接口，而低层模块向高层提供功能性的支持称之为 服务</p>
+<p>在ISOOSI&#x2F;RM中, 实现数据压缩功能 表示层</p>
+<h2 id="关于设备"><a href="#关于设备" class="headerlink" title="关于设备"></a>关于设备</h2><p>路由器</p>
+<p>局域网与广域网之间使用的互连设备是 路由器</p>
+<p>路由器和网关都具备协议转换功能</p>
+<p>Internet的核心部件是 路由器</p>
+<p>路由器运行于OSI模型的 网络层</p>
+<p>路由器不仅仅能实现点对点的传输，还能实现C&#x2F;S</p>
+<p>路由器的作用是 寻址 和 转发 </p>
+<p>一个路由器到下一个路由器之间的距离称为 跳 或 hop</p>
+<p>路由信息协议 RIP)使用的路由算法 距离矢量路由算法</p>
+<p>在 Internet 中,路由器的路由表通常包含 目的网络和到达该网络的下一个路由器的IP地址</p>
+<p>网卡</p>
+<p>计算机与局域网的连接是通过一个名为网络适配器（网卡）的硬件设备进行的</p>
+<p>网卡基本功能：数据转换、网络存取控制、数据缓存</p>
+<p>网卡  是工作在物理层和数据链路层上的网络设备</p>
+<p>交换机</p>
+<p>连接局域网，通过  交换机  实现</p>
+<p>交换式局域网的核心设备是 局域网交换机</p>
+<p>交换机 是工作在数据链路层上的网络设备</p>
+<p>以太网交换机是按照 MAC地址 进行转发的</p>
+<p>集线器</p>
+<p>集线器 实际上是一个多端口的中继器</p>
+<p>在局域网标准中,100BASE-T规定从收发器到集线器的距离不超过 100</p>
+<p>调制解调器的功能 数据传输</p>
+<h2 id="关于协议"><a href="#关于协议" class="headerlink" title="关于协议"></a>关于协议</h2><p><img src="https://img1.baidu.com/it/u=1333219036,2646778075&fm=253&fmt=auto&app=138&f=JPEG?w=499&h=231" alt="img"></p>
+<p>常用协议介绍</p>
+<p>HTTP   -  WWW</p>
+<p>FTP    -   文件下载&#x2F;文件上传  端口号：21</p>
+<p>SMTP—— Internet中发送邮件协议</p>
+<p>IEEE 802.3   -  局域网通信	IEEE——电气和电子工程师协会</p>
+<p>TCP&#x2F;IP   -  因特网</p>
+<p>NetBEUI   -  文件共享和打印机共享</p>
+<p>Stop-and-wait &#x2F;Sliding window     -  流量控制&#x2F;差错控制</p>
+<p>HDLC  -  数据链路控制</p>
+<p>协议的系统组合→ “Architecture”（网络体系结构）</p>
+<p>协议的三要素是 语法、语义、时序</p>
+<p>WLAN所用的协议是 IEEE 802.11 协议</p>
+<p>LAN所用的协议是 IEEE 802.3 协议</p>
+<p>在RIP路由协议中，当距离为  16  时表示目的不可达</p>
+<p>SNMP 不属于 TCP&#x2F;IP 参考模型互连层协议</p>
+<p>Internet网所采用的协议是 TCP&#x2F;IP ，其前身是 ARPANET </p>
+<p>PPP是目前使用最广泛的数据链路层协议。</p>
+<p>常用的内部网关协议有 RIP  、 OSPF  、 IGRP  、 IS-IS  等</p>
+<p>以太网采用的CSMA&#x2F;CD协议，当冲突发生时要通过二进制指数后退算法计算后退延时，关于这个算法 冲突次数越多，后退的时间越长</p>
+<p>一个运行CSMA&#x2F;CD协议的以太网，数据速率为1Gb&#x2F;s，网段长1km，信号速率为200000km&#x2F;s,则最小帧长是 10000 b</p>
+<p>ICMP通常被认为是 网络  层的协议</p>
+<p>IP协议——网际层最基本最重要的协议</p>
+<p>目前使用最主要的IP协议是IPv4。</p>
+<p>完成远程登录的 TCP&#x2F;IP 协议是 TELNET </p>
+<h2 id="网络安全"><a href="#网络安全" class="headerlink" title="网络安全"></a>网络安全</h2><p>网络攻击可以分为 被动攻击 和 主动攻击 。、</p>
+<p>网络层的安全协议主要是 IPSec</p>
+<p>屏蔽主机体系适合于 中小型网络。</p>
+<p>IDS指的是 对入侵行为进行监测的技术 。 </p>
+<p>入侵检测系统所采用的技术可分为 特征检测 与 异常检测。、</p>
+<p>在企业内部网与外部网之间，用来检查网络请求分组是否合法，保护网络资源不被非法使用的技术是 防火墙技术</p>
+<p>在常用的网络安全策略中，最重要的是 防护</p>
+<p><strong>防火墙不能 限制访问外部主机</strong></p>
+<h2 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h2><p>中继器在物理层工作。</p>
+<p>虚电路的实现有 交换式虚电路（SVC）和 永久虚电路（PVC）。</p>
+<p>无论是数据报方法，还是虚电路方法，它们都采用 存储转发式的分组交换技术。</p>
+<p>模拟信源输出的是 模拟信号 ，数字信源输出的是 数字信号。</p>
+<p>信宿的作用是 将接收设备发过来的原始电信号还原成相应的信号。</p>
+<p>信道一般用来 表示某个方向传送信息的媒体。</p>
+<p>基本的复用技术包括 频分复用 和 时分复用 </p>
+<p>光纤接入网可分为无源光网络和有源光网络</p>
+<p>传输介质是通信网络中发送方和接收方之间的 物理 通路</p>
+<p>传输速率 通信卫星&gt;光纤</p>
+<p>双绞线中传输 电信号</p>
+<p>光纤中传输 光信号</p>
+<p>光纤的亮或暗用来表示 1 和 0 </p>
+<p>高电压用来表示 1 ，低电压用来表示  0 </p>
+<p>光纤</p>
+<p>传输数据的时候，需要用到一对光纤——光具有 单向性</p>
+<p>光纤利用 全反射 使光线在通道内定向传输</p>
+<p>不受电磁干扰或噪声影响</p>
+<p>光缆的光束是在 玻璃纤维 内传输</p>
+<p>将数字信号调制为模拟信号有三种方式，即 调幅 、 调频 、 调相 </p>
+<p>调制 ——基带数字数据——&gt;模拟信号</p>
+<p>解调 ——模拟信号——&gt;基带数字数据</p>
+<p>编码 ——数字信号——&gt;另一种形式的数字信号</p>
+<p>解码 ——编码所得的数字信号——&gt;原来的数字信号</p>
+<p>调制一般需要使用一个正弦信号作为 载波 </p>
+<p>通信系统中，称调制前的电信号为 基带 信号，调制后的信号为 调制信号</p>
+<img src="C:\Users\Star\AppData\Roaming\Typora\typora-user-images\image-20230218212143879.png" alt="image-20230218212143879" style="zoom:67%;" />
+
+<p>计算信道的极限传输速率C</p>
+<p>无噪声干扰的前提下——奈氏准则</p>
+<p>有噪声干扰的前提下——香农公式</p>
+<p>香农公式的意义——只要信息传输速率低于信道的极限传输速率，就一定存在某种办法来实现无差错的传输</p>
+<p>相同设备之间连接用 交叉线</p>
+<p>异类设备之间连接用 直通线</p>
+<p>工作频率在5GHz，最高数据率为54Mb&#x2F;s的IEEE802.11标准是 IEEE 802.11a</p>
+<p>异类设备互连使用的网线为直通线</p>
+<p>与多模光纤相比较,单模光纤具有</p>
+<p>较高的传输速率，较长的传输距离，较高的成本，采用的波长更长</p>
+<p>PCM是一种  模拟到数字  转换的实例</p>
+<p>介质 是信息传输的物理通道</p>
+<p>计算机网络中常用的三种有线媒体是 同轴电缆. 双绞线 和 光纤</p>
+<p>串行数据通信的方向性结构有三种，即单工、 半双工 和 全双工</p>
+<p>计算机内传输的信号是 数字信号 ，而公用电话系统的传输系统只能传输 模拟信号 </p>
+<p>在中继系统中，中继器处于 物理层</p>
+<p>将双绞线制作成交叉线 一端按EIA&#x2F;TIA568A线序,另一端按EIA&#x2F;TIA 568B线序),该双绞线连接的两个设备可为 网卡与网卡</p>
+<p>交接机是一种多播口网桥</p>
+<h2 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h2><p>以太网地址是mac地址 64位</p>
+<p>数据链路：数据链路层的通信对等实体之间的传输通道。</p>
+<p>封装成帧主要有字节填充法和位填充法。</p>
+<p>数据链路层使用的信道有点对点信道和广播信道两种类型。	</p>
+<p>传输速率为10Mb&#x2F;s的以太网称为传统以太网。	</p>
+<p>交换式以太网采用星状拓扑结构。</p>
+<p>吉比特以太网的数据传输速率为1Gb&#x2F;s；1000Mb&#x2F;s。</p>
+<p>一个帧的大小是  [64,1518)</p>
+<p>帧突发机制规定，连续发送的最大长度限制为8KB。</p>
+<p>数据链路层和物理层使用的地址是MAC地址</p>
+<img src="C:\Users\Star\AppData\Roaming\Typora\typora-user-images\image-20230218212110928.png" alt="image-20230218212110928" style="zoom:67%;" />
+
+<p>MAC地址是  硬件  地址。</p>
+<p>MAC地址全球唯一</p>
+<p>局域网中的 MAC 与 OSI 参考模型 数据链路层 相对应</p>
+<p>在局域网中，MAC 指的是 介质访问控制子层</p>
+<p>采用专用线路通信时，可以省去的通信阶段是 建立通信线路</p>
+<p>就交换技术而言，局域网中的以太网采用的是 分组交换技术</p>
+<p>INTERNET最初创建的目的是用于 军事</p>
+<p>三网融合的三网：传统电信网  、计算机网络、有线电视网</p>
+<p>在以太网中，用MAC地址来区分不同的设备的</p>
+<p>在以太网中，最大传输单元(MTU)是 1500 字节</p>
+<p>万兆以太网 不使用CSMA&#x2F;CD协议的以太网</p>
+<p>以太网——是一种总线或星型结构的局域网技术</p>
+<p>Ethernet 局域网采用的媒体访问控制方式为 CSMA&#x2F;CD</p>
+<p>当连接两个完全不同结构的网络时，必须使用 网关 </p>
+<p>在以太网中，是根据 MAC地址 地址来区分不同的设备</p>
+<p>光纤的传输速度 300000km&#x2F;s</p>
+<p>电缆的传输速度 200000km&#x2F;s</p>
+<p>计算时间&#x3D;调制延迟+传输时间</p>
+<p>调制延迟&#x3D;包长&#x2F;调制速率</p>
+<p>传输时间&#x3D;两地距离&#x2F;介质传输速率</p>
+<p>在相隔400km的两地间通过电缆以4800b&#x2F;s的速率传送3000b长的数据包，从开始发送到接收完数据需要的时间是</p>
+<p>t&#x3D;3000&#x2F;4800+400&#x2F;200000&#x3D;627</p>
+<h2 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h2><p>IP地址分 网络号 和 主机号 两个部分</p>
+<p>网络层的任务是实现网络之间的互联与互通，功能为 路由选择、拥塞控制与网络互连</p>
+<p>网络层和以上各层使用的地址是IP地址</p>
+<p>IP地址是逻辑地址</p>
+<p>网络号用来标识一个网络。</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>最高比特位</th>
+<th>最大网络数</th>
+<th>IP地址范围</th>
+<th>单个网段最大主机数</th>
+<th>私有IP地址范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>000</td>
+<td>126(2^7-2)</td>
+<td>1.0.0.0-127.255.255.255</td>
+<td>16777214</td>
+<td>10.0.0.0-10.255.255.255</td>
+</tr>
+<tr>
+<td>B</td>
+<td>100</td>
+<td>16384(2^14)</td>
+<td>128.0.0.0-191.255.255.255</td>
+<td>65534</td>
+<td>172.16.0.0-172.31.255.255</td>
+</tr>
+<tr>
+<td>C</td>
+<td>110</td>
+<td>2097152(2^21)</td>
+<td>192.0.0.0-223.255.255.255</td>
+<td>254</td>
+<td>192.168.0.0-192.168.255.255</td>
+</tr>
+<tr>
+<td>D</td>
+<td>1110</td>
+<td></td>
+<td>224.0.0.0-239.255.255.255</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>E</td>
+<td>1111</td>
+<td></td>
+<td>240.0.0.0~255.255.255.255</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>主机号全为0表示主机地址，全为1表示广播地址，所以不能给主机配置主机号为0和255的ip</p>
+<p>127作为本地环回地址，也不能用于给主机配置ip</p>
+<p>子网掩码：在TCP&#x2F;IP 上区分每台主机网络号和主机号</p>
+<p>Internet 的通信协议是  TCP&#x2F;IP</p>
+<p>Ipv4——32位</p>
+<p>Ipv6——128位	可以提供的IP地址总量为 2^128</p>
+<p> ARP 协议的作用是 将IP 地址映射到第二层地址 </p>
+<p>工作组不是上互联网所必须的</p>
+<p>划分子网的原因——有 IP地址空间的有效利用率低  、 按类别分配IP地址会使网络性能变坏  、 两级的IP地址不够灵活</p>
+<p>在ICMP差错报告中，如果TTL&#x3D;0，我们就认为 超时</p>
+<p>在ICMP查询报文中，回声请求和应答用来 测试是否连通 </p>
+<p>路由选择协议的核心是 路由算法 </p>
+<p>一个理想的路由算法应具有 正确性  、 简单性  、 自适应性  、 稳定性  、 公平性  和 最优性 </p>
+<p>在双协议栈技术中，用到了两个协议，它们分别是 IPV4  、IPV6 </p>
+<img src="C:\Users\Star\AppData\Roaming\Typora\typora-user-images\image-20230218211654131.png" alt="image-20230218211654131" style="zoom:50%;" />
+
+<p>子网掩码中的“1”代表  网络部分，“0”代表主机部分</p>
+<p>在IP地址中，首表示网络号，尾表示广播地址</p>
+<p>当一个 IP 分组在两台主机间直接交付时,要求这两台主机具有相同的 子网号</p>
+<p>在 Internet 中，用字符串表示的 IP 地址称为 域名 </p>
+<p>互连网中，域名是对IP地址的命名，它采用  层次 结构，通常最高域名为 国家名 。如CN代表 中国 ；次高域名常用于标识行业，如COM代表 商业 ，EDU代表 教育	最高写在最后面，次高写在倒数第二</p>
+<p>路由选择协议位于 网络层</p>
+<p>在OSI的七层参考模型中，工作在第三层以上的网间连接设备是 网桥</p>
+<p>IP协议是无连接的，其信息传输方式是 数据报</p>
+<p>数据报方式中允许分组乱序到达目的地</p>
+<p>IPv6对比IPv4</p>
+<p>更大的地址空间   IPv6的地址长达128位，是32位IPv4地址的四倍。IPv6理论上可容纳2128个不同地址，平均地球上每平方米可分配到6700万亿个IP地址。它甚至可以让地球上的所有人同时用1000台设备上网,每个设备拥有不同的IP地址。如此巨大的IP地址数，不仅消除了IP地址对因特网规模的限制，而且可以使地址包含更多的路由信息，简化了路由选择算法，提高了传输效率，减少了路由处理时间，提高了网络速度。</p>
+<p>更好的报头格式   IPv6使用新的报头格式，这种格式中选项部分与基本报头部分是分开的，而且只在必要时插入其中。这就简化和加快了路由处理过程，因为选项中的大部分并不需要路由器检查。</p>
+<p>如果两台主机在同一子网内，则它们的IP地址与子网掩码进行 “与”操作，结果相同</p>
+<p>当一个IP分组在两台主机间直接交付时，要求这两台主机具有相同的 子网号</p>
+<p>Internet 互连层的4个重要协议是IP、ARP、RARP和 ICMP</p>
+<p>用于高层协议转换的网间连接设施是 网关</p>
+<p>在RIP路由协议中，当距离为  16 时表示目的不可达</p>
+<h2 id="运输层-传输层"><a href="#运输层-传输层" class="headerlink" title="运输层(传输层)"></a>运输层(传输层)</h2><p>传输层以上各层协议统称为高层协议，它们主要考虑的问题是 主机与主机 之间的协议问题</p>
+<p>传输层可以通过 端口号 标识不同的应用</p>
+<p>在 OSI 参考模型中的网络分层，通信子网与资源子网的分界层是 运输层</p>
+<p>UDP报文常被称为 用户数据报。</p>
+<p>TCP实体之间传输的协议数据单元PDU称为 TCP报文</p>
+<p>TCP&#x2F;IP将端口分为两大类：保留端口，自由端口</p>
+<p>UDP报文的报头长度固定为 8B。</p>
+<p>TCP 的主要功能是 保证可靠运输</p>
+<p><img src="https://img0.baidu.com/it/u=868667196,1804963305&fm=253&fmt=auto&app=138&f=JPEG?w=499&h=288" alt="img"></p>
+<p>在 OSI 参考模型中的网络分层，通信子网与资源子网的分界层是 运输层</p>
+<p>传输层上的核心是 TCP和UDP</p>
+<p>在TCP&#x2F;IP参考模型中,传输层的主要作用是为应用进程提供 端到端的通信服务</p>
+<p>由 Internet 端口号分配机构 IANA)管理的端口范围是 1~1023</p>
+<p>TCP段结构中,端口地址的长度为 16b</p>
+<h2 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h2><p>com是 商业机构 的后缀</p>
+<p>org是 非营利性组织 的后缀</p>
+<p>域名的解析工作由 DNS服务器 完成</p>
+<p>FTP的中文名称是 文件传输协议</p>
+<p>电子邮件由 信封 和 报文 两部分组成。、</p>
+<p> WWW 网页文件的编写语言及相应的支持协议分别为 HTML，HTTP</p>
+<p>远程登录协议 Telnet 、电子邮件协议SMTP、文件传送协议FTP依赖 TCP协议</p>
+<p>在电子邮件程序向邮件服务器发送邮件时，使用的是简单邮件传送协议SMTI 电子邮件程序从邮件服务器中读取邮件时，可以使用 POP3  协议</p>
+<p>标准的URL由三部分组成,协议、主机名和路径及 文件名</p>
+<p>FTP Client 发起对FTP Server 的连接建立的第一阶段是建立 控制连接</p>
+<p>客户&#x2F;服务器 C&#x2F;S)属于以  服务器 为中心的网络计算模式</p>
+<p>DNS的功能是解析 主机名和IP地址</p>
+<p>域名解析过程中，可以执行两种类型的查询，分别是 迭代查询与递归查询</p>
+<p>在FTP中,用于实际传输文件的连接是 数据连接</p>
+<p>使用匿名FTP服务，用户登录时常常可以使用  anonymous 作为用户名</p>
+<p><img src="https://img1.baidu.com/it/u=3765314886,500534333&fm=253&fmt=auto&app=138&f=PNG?w=451&h=261" alt="img"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/09/30/pwn/" rel="prev" title="pwn">
+      <i class="fa fa-chevron-left"></i> pwn
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">计算机网络概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E8%AE%BE%E5%A4%87"><span class="nav-number">2.</span> <span class="nav-text">关于设备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.</span> <span class="nav-text">关于协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8"><span class="nav-number">4.</span> <span class="nav-text">网络安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E5%B1%82"><span class="nav-number">5.</span> <span class="nav-text">物理层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="nav-number">6.</span> <span class="nav-text">数据链路层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="nav-number">7.</span> <span class="nav-text">网络层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%BE%93%E5%B1%82-%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="nav-number">8.</span> <span class="nav-text">运输层(传输层)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82"><span class="nav-number">9.</span> <span class="nav-text">应用层</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">s1eepstar</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">s1eepstar</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
